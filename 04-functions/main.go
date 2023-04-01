@@ -47,6 +47,11 @@ func main() {
 	myAnonFunc()
 	myAnonFunc()
 	myAnonFunc()
+
+	functions := FunctionOnMap{
+		name: "TEN",
+	}
+	functions.Run()
 }
 
 func simpleProcedure() {
