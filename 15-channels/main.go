@@ -9,6 +9,9 @@ func main() {
 
 	twoChannels()
 
+	worker := NewWorkerPool([]int{2, 3, 4, 5, 7, 10, 15}, 3)
+	worker.Run()
+
 }
 
 func twoChannels() {

@@ -7,6 +7,14 @@ import (
 
 func main() {
 	// Wait group: https://gobyexample.com/waitgroups
+	basicWaitGroup()
+
+	semaphore := NewSemaphore(5, 10)
+	semaphore.Run()
+
+}
+
+func basicWaitGroup() {
 	var waitGroup sync.WaitGroup
 
 	fmt.Println("hello")
@@ -16,7 +24,6 @@ func main() {
 	go say("world", &waitGroup)
 
 	waitGroup.Wait()
-
 }
 
 func say(text string, wg *sync.WaitGroup) {
