@@ -27,6 +27,7 @@ git clone https://github.com/dasalgadoc/best-go-examples.git
 ```
 3. Build up go project
 ```bash
+go mod download
 go get .
 ```
 4. If you have fzf installed on your computer you can use the shell __runner.sh__
