@@ -67,6 +67,21 @@ func NewFilterOperator(value string) (*FilterOperator, error) {
 	return &FilterOperator{value: operator}, nil
 }
 
+/*-- Form 3: Autoincrement --*/
+
+type Colour int
+
+const (
+	Unknown Colour = iota
+	Red
+	Blue
+	Green
+)
+
+func (c Colour) String() string {
+	return [...]string{"Unknown", "Red", "Blue", "Green"}[c]
+}
+
 func main() {
 	day := Monday
 	fmt.Println(day)
@@ -79,4 +94,7 @@ func main() {
 
 	op := GTE
 	fmt.Println(op)
+
+	colour := Colour(2)
+	fmt.Println(colour)
 }
