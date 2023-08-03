@@ -34,6 +34,11 @@ go get .
 
 So, you can run nany example by selecting from de menu:
 
+Make sure to give execution permissions to the file
+```bash
+chmod +x ./runner.sh
+```
+
 ```bash
 source ./runner.sh
 ```
