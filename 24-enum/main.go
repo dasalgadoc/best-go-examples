@@ -76,4 +76,7 @@ func main() {
 		panic(err)
 	}
 	fmt.Println(operator.Value())
+
+	op := GTE
+	fmt.Println(op)
 }
