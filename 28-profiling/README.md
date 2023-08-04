@@ -25,7 +25,7 @@ This commands will open an interface in the terminal. Some functions are:
 |      Command      | Description                                   |
 |:-----------------:|:----------------------------------------------|
 |       `top`       | Show the top entries                          |
-| `list <function>` | Show the code of the📕 function               |
+| `list <function>` | Show the code of the function                 |
 |       `web`       | Open a web interface to inspect the profile * |
 |       `pdf`       | Generate a pdf file                           |
 |      `help`       | Show the help                                 |
