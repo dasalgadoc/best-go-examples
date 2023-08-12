@@ -66,5 +66,7 @@ func GetPokemonHeight(pokemon string) (stats PokemonStats) {
 		return
 	}
 
+	//log.Println("Pokemon", pokemon, "height is", stats.Height)
+
 	return
 }

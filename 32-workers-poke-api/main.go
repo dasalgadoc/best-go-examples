@@ -8,7 +8,8 @@ import (
 )
 
 const (
-	numWorkers = 5
+	numWorkers        = 5
+	elementsPerWorker = 20
 )
 
 func main() {
@@ -16,7 +17,9 @@ func main() {
 
 	syncMethod(elements)
 
-	asyncMethod(elements)
+	asyncMethod(elements, false)
+	asyncMethod(elements, true)
+
 }
 
 func syncMethod(elements []Pokemon) {
@@ -26,15 +29,14 @@ func syncMethod(elements []Pokemon) {
 
 	for _, element := range elements {
 		_ = GetPokemonHeight(element.Name)
-		//log.Println("Pokemon", element.Name, "height is", pokemonStats.Height)
 	}
 
 	elapsed := time.Since(now)
 	log.Printf("Sync Execution took %s", elapsed)
 }
 
-func asyncMethod(elements []Pokemon) {
-	log.Println("Sync Execution started")
+func asyncMethod(elements []Pokemon, stepped bool) {
+	log.Println("Async Execution started")
 
 	totalElements := len(elements)
 	now := time.Now()
@@ -48,7 +50,11 @@ func asyncMethod(elements []Pokemon) {
 		if end > totalElements {
 			end = totalElements
 		}
-		go worker(i, start, end, elements, &wg, ch)
+		if stepped {
+			go steppeWorker(i, elements[start:end], &wg, ch)
+		} else {
+			go worker(i, start, end, elements, &wg, ch)
+		}
 	}
 
 	wg.Wait()
@@ -66,7 +72,37 @@ func worker(id int, start, end int, elements []Pokemon, wg *sync.WaitGroup, ch c
 	defer wg.Done()
 	for i := start; i < end; i++ {
 		_ = GetPokemonHeight(elements[i].Name)
-		//log.Println("Pokemon", elements[i].Name, "height is", pokemonStats.Height)
 	}
+	ch <- id
+}
+
+func steppeWorker(id int, elements []Pokemon, wg *sync.WaitGroup, ch chan int) {
+	defer wg.Done()
+
+	semaphore := make(chan Pokemon, elementsPerWorker)
+	done := make(chan Pokemon)
+
+	go func() {
+		wg := sync.WaitGroup{}
+
+		for _, element := range elements {
+			semaphore <- element
+			wg.Add(1)
+
+			go func(e Pokemon) {
+				defer func() {
+					<-semaphore
+					wg.Done()
+				}()
+
+				_ = GetPokemonHeight(e.Name)
+			}(element)
+		}
+
+		wg.Wait()
+		close(done)
+	}()
+
+	<-done
 	ch <- id
 }
