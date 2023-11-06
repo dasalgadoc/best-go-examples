@@ -23,6 +23,10 @@ func main() {
 	fmt.Println("Add two numbers: ", sumASlice(1, 2))
 	fmt.Println("Add three numbers: ", sumASlice(1, 2, 3))
 	fmt.Println("Add five numbers: ", sumASlice(1, 2, 3, 4, 5))
+
+	slice := []int{1, 2, 3, 4, 5}
+	fmt.Println("Add five numbers: ", sumASlice(slice...))
+
 	fmt.Println()
 
 	// Anonymous functions
