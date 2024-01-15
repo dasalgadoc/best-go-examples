@@ -88,7 +88,7 @@ func (d *DoubleLinkedList) Insert(data, index int) {
 		return
 	}
 
-	current := d.NodeAt(index - 1)
+	current := d.NodeAt(index)
 	previous := current.prev
 	newNode := NewDoubleLinkedNode(data, previous, current)
 	current.prev = newNode
