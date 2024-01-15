@@ -77,9 +77,9 @@ func (s *SinglyLinkedList) Insert(data, index int) {
 	s.len++
 }
 
-// NodeAtIndex Returns the Node at specified index
+// NodeAt Returns the Node at specified index
 // Takes O(n) time
-func (s *SinglyLinkedList) NodeAtIndex(index int) *Node {
+func (s *SinglyLinkedList) NodeAt(index int) *Node {
 	if index < 0 || index > s.len {
 		panic("Index out of range")
 	}
@@ -119,9 +119,9 @@ func (s *SinglyLinkedList) Remove(key int) *Node {
 	return nil
 }
 
-// RemoveAtIndex Removes Node at specified index
+// RemoveAt Removes Node at specified index
 // Takes O(n) time
-func (s *SinglyLinkedList) RemoveAtIndex(index int) *Node {
+func (s *SinglyLinkedList) RemoveAt(index int) *Node {
 	if index < 0 || index > s.len {
 		panic("Index out of range")
 	}
@@ -143,7 +143,7 @@ func (s *SinglyLinkedList) RemoveAtIndex(index int) *Node {
 	return previous
 }
 
-// Print Prints the linked list
+// Print the linked list
 // Takes O(n) time
 func (s *SinglyLinkedList) Print() {
 	current := s.head
