@@ -67,13 +67,13 @@ func (s *SinglyLinkedList) Insert(data, index int) {
 		return
 	}
 
-	previous := s.head
+	current := s.head
 	for i := 0; i < index-1; i++ {
-		previous = previous.next
+		current = current.next
 	}
 
-	newNode := NewNode(data, previous.next)
-	previous.next = newNode
+	newNode := NewNode(data, current.next)
+	current.next = newNode
 	s.len++
 }
 
@@ -106,14 +106,14 @@ func (s *SinglyLinkedList) Remove(key int) *Node {
 		return nil
 	}
 
-	previous := s.head
-	for previous.next != nil {
-		if previous.next.data == key {
-			previous.next = previous.next.next
+	current := s.head
+	for current.next != nil {
+		if current.next.data == key {
+			current.next = current.next.next
 			s.len--
-			return previous
+			return current
 		}
-		previous = previous.next
+		current = current.next
 	}
 
 	return nil
@@ -132,15 +132,15 @@ func (s *SinglyLinkedList) RemoveAt(index int) *Node {
 		return nil
 	}
 
-	previous := s.head
+	current := s.head
 	for i := 0; i < index-1; i++ {
-		previous = previous.next
+		current = current.next
 	}
 
-	previous.next = previous.next.next
+	current.next = current.next.next
 	s.len--
 
-	return previous
+	return current
 }
 
 // Print the linked list
