@@ -1,19 +1,21 @@
 package main
 
+// mergeSort is a recursive algorithm that continually splits a slice in half call mergeSort on each half recursively.
+// It then merges the two sorted halves back together.
 func mergeSort(unsorted []int) []int {
 	// base case
 	if len(unsorted) <= 1 {
 		return unsorted
 	}
 
-	// divide
+	// divide: Find the midpoint of the slice and divide into sub-slices
 	mid := len(unsorted) / 2
 
-	// conquer
+	// conquer: recursively sort the sub-slices
 	left := mergeSort(unsorted[:mid])
 	right := mergeSort(unsorted[mid:])
 
-	// combine
+	// combine: merge the two sorted sub-slices
 	return merge(left, right)
 }
 
