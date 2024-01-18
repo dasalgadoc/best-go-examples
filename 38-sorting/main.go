@@ -14,8 +14,10 @@ func main() {
 func mergeSortExamples() {
 	unsorted := buildRandomIntSlice()
 	sorted := mergeSort(unsorted)
+	sortedIt := mergeSortIterative(unsorted)
 	fmt.Println("Unsorted slice", unsorted)
 	fmt.Println("Merge sort    ", sorted)
+	fmt.Println("Merge sort it ", sortedIt)
 	fmt.Println("Is sorted?    ", isSliceSortedVanilla(sorted))
 }
 
