@@ -7,6 +7,16 @@ import (
 
 func main() {
 	standardExamples()
+
+	mergeSortExamples()
+}
+
+func mergeSortExamples() {
+	unsorted := buildRandomIntSlice()
+	sorted := mergeSort(unsorted)
+	fmt.Println("Unsorted slice", unsorted)
+	fmt.Println("Merge sort    ", sorted)
+	fmt.Println("Is sorted?    ", isSliceSortedVanilla(sorted))
 }
 
 func standardExamples() {
