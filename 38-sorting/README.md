@@ -10,3 +10,4 @@ This package is part of the standard library and it is very efficient. So, it is
 
 1. Standard Library
 2. Merge-Sort
+3. Selection-Sort

@@ -9,6 +9,16 @@ func main() {
 	standardExamples()
 
 	mergeSortExamples()
+
+	selectionSortExamples()
+}
+
+func selectionSortExamples() {
+	unsorted := buildRandomIntSlice()
+	sorted := immutableSelectionSort(unsorted)
+	fmt.Println("Unsorted slice", unsorted)
+	fmt.Println("Selection sort", sorted)
+	fmt.Println("Is sorted?    ", isSliceSortedVanilla(sorted))
 }
 
 func mergeSortExamples() {
