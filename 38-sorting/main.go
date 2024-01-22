@@ -11,6 +11,16 @@ func main() {
 	mergeSortExamples()
 
 	selectionSortExamples()
+
+	quickSortExamples()
+}
+
+func quickSortExamples() {
+	unsorted := buildRandomIntSlice()
+	sorted := quickSort(unsorted)
+	fmt.Println("Unsorted slice", unsorted)
+	fmt.Println("Quick sort", sorted)
+	fmt.Println("Is sorted?", isSliceSortedStd(sorted))
 }
 
 func selectionSortExamples() {

@@ -11,3 +11,4 @@ This package is part of the standard library and it is very efficient. So, it is
 1. Standard Library
 2. Merge-Sort (`O(nlogn)`)
 3. Selection-Sort (`O(n^2)`)
+4. Quick-Sort (`O(nlogn)`)
