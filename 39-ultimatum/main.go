@@ -6,6 +6,14 @@ func main() {
 	its := 100
 	gameUpperBound := 100
 
+	for i := 0; i < 100; i++ {
+		tournament(gameUpperBound, its)
+		fmt.Println()
+	}
+
+}
+
+func tournament(gameUpperBound int, its int) {
 	tournament := struct {
 		Length          int
 		Proposers       []Actor
@@ -13,7 +21,7 @@ func main() {
 		Acceptors       []Actor
 		AcceptorsPoints []int
 	}{
-		Length: 7,
+		Length: 8,
 		Proposers: []Actor{
 			NewAveragerActor("proposer", gameUpperBound),
 			NewConformistActor("proposer", gameUpperBound),
@@ -22,8 +30,9 @@ func main() {
 			NewRandomerActor("proposer", gameUpperBound),
 			NewStorierActor("proposer", gameUpperBound),
 			NewSmartGreedyActor("proposer", gameUpperBound),
+			NewJustifierWithOutToleranceActor("proposer", gameUpperBound),
 		},
-		ProposersPoints: []int{0, 0, 0, 0, 0, 0, 0},
+		ProposersPoints: []int{0, 0, 0, 0, 0, 0, 0, 0},
 		Acceptors: []Actor{
 			NewAveragerActor("acceptor", gameUpperBound),
 			NewConformistActor("acceptor", gameUpperBound),
@@ -32,8 +41,9 @@ func main() {
 			NewRandomerActor("acceptor", gameUpperBound),
 			NewStorierActor("acceptor", gameUpperBound),
 			NewSmartGreedyActor("acceptor", gameUpperBound),
+			NewJustifierWithOutToleranceActor("acceptor", gameUpperBound),
 		},
-		AcceptorsPoints: []int{0, 0, 0, 0, 0, 0, 0},
+		AcceptorsPoints: []int{0, 0, 0, 0, 0, 0, 0, 0},
 	}
 
 	for i := 0; i < tournament.Length; i++ {
@@ -46,7 +56,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Tourament results:\n")
+	fmt.Printf("Tournament results:\n")
 	fmt.Printf("%+v\n", tournament.ProposersPoints)
 	fmt.Printf("%+v\n", tournament.AcceptorsPoints)
 }
