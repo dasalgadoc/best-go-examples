@@ -3,7 +3,7 @@ repos:
   # If you want them to run on each commit, uncomment them
   # These are OPTIONAL.
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-    rev: v2.3.0
+    rev: v2.14.0
     hooks:
       - id: pretty-format-golang
         args:
