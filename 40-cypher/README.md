@@ -6,11 +6,26 @@
 * __Rápido y Eficiente__: Ideal para cifrar grandes volúmenes de datos. [Ver benchmark](https://medium.com/@gerritjvv/aes-golang-encryption-performance-benchmarks-updated-bcfa3555165b)
 * __Seguridad__: Depende de mantener la clave secreta.
 
-### 🔎 Detalles del AES-GCM:
+### 🔎 Resumen de Términos:
 
 * __AES (Advanced Encryption Standard)__: Algoritmo de cifrado por bloques.
 * __GCM (Galois/Counter Mode)__: Proporciona autenticación e integridad de los datos.
 * __Nonce (Número Único)__: Garantiza que los datos cifrados sean únicos aunque el mensaje sea el mismo.
+
+### 🔑 ¿Cómo funciona en detalle?
+
+1. __Generación de Clave__: Se genera una clave aleatoria con 128, 192 o 256 bits. Entre más bits, más segura pero más lenta.
+2. __Cifrado__:
+   * __SubBytes__: Cada byte se reemplaza por otro según una tabla predeterminada llama S-Box.
+   * __ShiftRows__: Se reorganizan las filas de la matriz, desplazando los bytes circularmente.
+   * __MixColumns__: Se mezclan las columnas de la matriz.
+   * __AddRoundKey__: Se aplica una operación XOR con la clave. El AES-GCM añade un contador de bloques y se combina con el texto.
+   * __Rondas__: Se repiten las operaciones varias veces. 10 rondas para AES-128, 12 para AES-192 y 14 para AES-256. (Por eso es más lento entre más bits de clave).
+   * __GCM__: Se añade autenticación e integridad de los datos. Un tag de autenticación se añade al final del texto cifrado.
+   * __Nonce__: Se añade un número único para evitar ataques de repetición.
+   * __Cifrado__: Se obtiene el texto cifrado. Al que se le añade el tag de autenticación de modo que se pueda verificar la integridad de los datos y decifrarlos correctamente.
+3. __Descifrado__: Se aplica el proceso inverso para obtener el texto original.
+
 
 ### 📦 Uso:
 
