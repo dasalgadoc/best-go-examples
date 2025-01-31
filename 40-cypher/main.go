@@ -6,10 +6,17 @@ func main() {
 	// ===== AES =====
 	fmt.Println("===== AES-GCM (Simétrico) =====")
 	keyAES := generateAESKey()
+
 	message := "Mensaje secreto con AES 🔐"
+	fmt.Println("Is Encrypted:", isEncrypted(keyAES, message))
+
 	encryptedAES := encryptAES(keyAES, []byte(message))
 	fmt.Println("🔒 Cifrado AES:", encryptedAES)
-	fmt.Println("🔓 Descifrado AES:", decryptAES(keyAES, encryptedAES))
+	fmt.Println("Is Encrypted:", isEncrypted(keyAES, encryptedAES))
+
+	decrypt := decryptAES(keyAES, encryptedAES)
+	fmt.Println("🔓 Descifrado AES:")
+	fmt.Println("Is Encrypted:", isEncrypted(keyAES, decrypt))
 
 	// ===== RSA =====
 	fmt.Println("\n===== RSA (Asimétrico) =====")

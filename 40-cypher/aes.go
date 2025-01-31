@@ -92,3 +92,40 @@ func decryptAES(key []byte, encryptedBase64 string) string {
 	}
 	return string(plaintext)
 }
+
+func isEncrypted(key []byte, text string) bool {
+	// Decodificar la cadena Base64
+	decoded, err := base64.StdEncoding.DecodeString(text)
+	if err != nil {
+		// Si no es un Base64 válido, no está cifrado
+		return false
+	}
+
+	// Verificar la longitud mínima esperada
+	// El texto cifrado debe contener: nonce (12 bytes) + texto cifrado (al menos 1 byte) + tag (16 bytes)
+	// MinLength = 12 + 1 + 16 = 29 bytes
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return false
+	}
+
+	aesGCM, err := cipher.NewGCM(block)
+	if err != nil {
+		return false
+	}
+
+	minLength := aesGCM.NonceSize() + 1 + aesGCM.Overhead()
+	if len(decoded) < minLength {
+		return false
+	}
+
+	//  Verificar si los primeros bytes podrían ser un nonce válido
+	// (No hay una forma directa de validar el nonce, pero podemos verificar la longitud)
+	nonce := decoded[:aesGCM.NonceSize()]
+	if len(nonce) != aesGCM.NonceSize() {
+		return false
+	}
+
+	// 4️⃣ Si pasa todas las verificaciones, asumimos que está cifrado
+	return true
+}

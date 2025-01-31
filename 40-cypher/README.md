@@ -31,6 +31,36 @@
 
 * Cifrado de archivos, bases de datos, almacenamiento local.
 
+## Java
+
+[Código de ejemplo](https://github.com/dasalgadoc/java-examples/blob/master/src/com/dsalgado/examples/cypher/AESGCMVanillaCypher.java)
+
+### Diferencias entre Go y Java
+
+__Manejo del nonce(IV):
+* En go, el nonce y el texto cifrado se concatenan automáticamente usado el módulo de GMC `aesGCM.Seal`
+* En Java, se concatenan manualmente usando `System.arraycopy`
+* No hay impacto, ambas implementaciones garantizan que el nonce esté disponible para el descifrado.
+
+__Extracción del nonce durante el decifrado__
+* En go, el nonce se extrae automáticamente usando `ciphertext[:nonceSize]`
+* En java, se extrae manualmente usando `Arrays.copyOfRange(ciphertext, 0, nonceSize)`
+* No hay impacto, ambas implementaciones separan correctamente el nonce del texto cifrado.
+
+__Bibliotecas__
+* En go, se usa `crypto/aes` y `crypto/cipher`
+* En java, se usa `Cipher`, `SecretKeySpec` y `GCMParameterSpec`
+* No hay impacto, ambas implementaciones usan las bibliotecas estándar de cada lenguaje.
+
+
+## Interoperabilidad
+Para garantizar que textos cifrados con Java puedan ser decifrados por Go y viceversa se requieren los siguientes pasos:
+* Usar el mismo algoritmo de cifrado (AES-GCM)
+* Usar la misma longitud de clave (128, 192 o 256 bits)
+* Compartir la clave de cifrado entre las aplicaciones
+* Usar el mismo tamaño de nonce (96 bits)
+* Usar el mismo tamaño de tag (128 bits)
+
 ---
 
 ## 2️⃣ Cifrado Asimétrico (RSA)
