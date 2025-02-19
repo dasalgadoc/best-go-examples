@@ -37,7 +37,7 @@
 
 ### Diferencias entre Go y Java
 
-__Manejo del nonce(IV):
+__Manejo del nonce(IV)__:
 * En go, el nonce y el texto cifrado se concatenan automáticamente usado el módulo de GMC `aesGCM.Seal`
 * En Java, se concatenan manualmente usando `System.arraycopy`
 * No hay impacto, ambas implementaciones garantizan que el nonce esté disponible para el descifrado.
@@ -60,6 +60,46 @@ Para garantizar que textos cifrados con Java puedan ser decifrados por Go y vice
 * Compartir la clave de cifrado entre las aplicaciones
 * Usar el mismo tamaño de nonce (96 bits)
 * Usar el mismo tamaño de tag (128 bits)
+
+## Consideraciones funcionales
+
+Los cifrados que terminan sean almmacenados en bases de datos pueden tener las siguientes consideraciones:
+
+1. __Cruces y Relaciones Rotas__: Un campo cifrado si es clave foránea o se usa para relacionar datos entre tablas, su valor cifrado será diferente cada vez, lo que rompe los cruces.
+2. __Búsquedas Imposibles__: Si se necesita buscar un valor específico el cifrado con IV aleatorio lo hace inviable porque la comparación fallará.
+
+
+### ¿Como solucionarlo?
+1. __Usar cifrado determinista__: 
+   * ✅Usar `AES-ECB` o un IV fijo para que el cifrado sea determinista.
+   * ✅Esto permite búsquedas exactas y comparaciones.
+   * ❌Aunque esto puede ser menos seguro, ya que se exponen patrones.
+2. __Hash + Cifrado__: (_para búsquedas_)
+   * ✅Se usan dos campos, uno con el hash del valor original (SHA-256) y otro con el valor cifrado (AES-GCM).
+   * ✅Esto permite buscar por el hash y comparar el valor original. Lo que lo hace util para búsqeudas exactas sin descifrar el campo.
+   * ❌Aumenta el tamaño de almacenamiento y la complejidad de la consulta.
+   * ❌No es útil para búsquedas parciales, rangos o usando operador `like`.
+3. __Tokeninzación__: (_para relaciones y cruces_)
+   * ✅Se reemplaza el dato cifrado por un token único (UUID) que se usa para relacionar tablas, existe una tabla aparte con el valor cifrado.
+   * ✅Esto permite mantener las relaciones y cruces entre tablas.
+   * ✅Se puede aplicar a búsquedas pero deben convertirse en cruces.
+   * ❌Gestión segura de tokens.
+   * ❌Aumenta el tamaño de almacenamiento.
+
+|ID |FIELD_PII_TOKEN|	FIELD_PII_CIPH|
+|---|---------------|----------------|
+|1	 |12345          |	[CIFRADO AES] |
+|2	 |67890          |	[CIFRADO AES] |
+
+
+| Algoritmo                                     | Determinista	 |   Seguro	    | Coste Computacional	  | Soporte  |
+|:----------------------------------------------|:-------------:|:------------:|:---------------------:|:--------:|
+| AES-GCM (IV aleatorio)	                       |     ❌ No	     |    ✅ Sí	     |       🔸 Medio	       |  ✅ Alto  |
+| AES-ECB (Determinístico)	                     |     ✅ Sí	     |   ⚠️ No*	    |       🔹 Bajo	        |  ✅ Alto  |
+| AES-GCM (IV fijo por dato)	                   |     ✅ Sí	     |  ⚠️ Medio	   |       🔸 Medio	       |  ✅ Alto  |
+| Format-Preserving Encryption (FPE - FF1, FF3) |     ✅ Sí	     |     ✅ Sí     |       🔺 Alto	        | ⚠️ Medio |
+| Order-Preserving Encryption (OPE)	            |     ✅ Sí	     | ⚠️ Riesgoso  |       🔺 Alto	        | ⚠️ Bajo  |
+| SHA-256 Hashing con Pepper	                   |     ✅ Sí	     |     ✅ Sí     |       🔹 Bajo	        |  ✅ Alto  |
 
 ---
 
