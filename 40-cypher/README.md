@@ -85,6 +85,16 @@ Los cifrados que terminan sean almmacenados en bases de datos pueden tener las s
    * ✅Se puede aplicar a búsquedas pero deben convertirse en cruces.
    * ❌Gestión segura de tokens.
    * ❌Aumenta el tamaño de almacenamiento.
+4. __Uso de AES-SIV__: (_para búsquedas y relaciones_)
+   * ✅SIV (Synthetic Initialization Vector) permite cifrar y autenticar los datos en un solo paso.
+   * ✅Genera dos claves a partir de una clave maestra, una para cifrar y otra para autenticar.
+   * ✅Se genera un vector de inicialización que funciona como una firma de los datos.
+   * ✅El texto plano se cifra usando AES en modo CTR y se autentica con el SIV.
+   * ✅No reutiliza un nonce, lo que evita ataques de repetición.
+   * ✅Esto permite búsquedas exactas y comparaciones.
+   * ✅Se puede usar para relaciones y cruces.
+   * ❌Aumenta el tamaño de almacenamiento.
+   * ❌Aumenta el costo computacional, aproximadamente un 1.5 a 2 veces más costoso que el AES-GCM.
 
 |ID |FIELD_PII_TOKEN|	FIELD_PII_CIPH|
 |---|---------------|----------------|
